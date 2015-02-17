@@ -3,7 +3,7 @@ package juice;
 import java.io.*;
 import java.util.*;
 
-public class Main /*implements Runnable*/{
+public class Main implements Runnable{
 
     TreeSet <String> products;
     ArrayList <String> normalProducts;
@@ -14,9 +14,9 @@ public class Main /*implements Runnable*/{
         new Main().doIt();
     }
 
-   /* public void run() {
+    public void run() {
         Collections.sort(list, new ComponentComparator());
-    }*/
+    }
 
     void doIt () throws IOException{
         normalProducts = new ArrayList<String>();
@@ -26,8 +26,8 @@ public class Main /*implements Runnable*/{
         input ("juice.in");
         output1("juice1.out");
         output2("juice2.out");
-        Collections.sort(list, new ComponentComparator());
-        //new Thread(this).start();
+      //  Collections.sort(list, new ComponentComparator());
+        new Thread(this).start();
         output3("juice3.out", minMove());
     }
 
