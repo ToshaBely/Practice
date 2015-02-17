@@ -5,9 +5,9 @@ import java.util.*;
 
 public class Main implements Runnable{
 
-    TreeSet <String> products;
-    ArrayList <String> normalProducts;
-    ArrayList <Juice> list;
+    private TreeSet <String> products;
+    private ArrayList <String> normalProducts;
+    private ArrayList <Juice> list;
 
 
     public static void main(String [] args) throws IOException{

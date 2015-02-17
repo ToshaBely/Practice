@@ -5,7 +5,9 @@ import java.util.Collections;
 import java.util.StringTokenizer;
 
 public class Juice {
-    ArrayList<String> components;
+
+    private ArrayList<String> components;
+
     Juice() {
         components = new ArrayList<String>();
     }
