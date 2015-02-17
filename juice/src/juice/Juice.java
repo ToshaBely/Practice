@@ -8,6 +8,10 @@ public class Juice {
 
     private ArrayList<String> components;
 
+    ArrayList <String> getComponents () {
+        return components;
+    }
+
     Juice() {
         components = new ArrayList<String>();
     }

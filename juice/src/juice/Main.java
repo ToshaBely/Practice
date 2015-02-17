@@ -82,6 +82,7 @@ public class Main implements Runnable{
         pw.print(a);
         pw.flush();
     }
+
     int minMove () {
         ArrayList <Juice> q = new ArrayList<Juice>();
         ArrayList <Boolean> flags = new ArrayList<Boolean>(list.size());
@@ -94,7 +95,7 @@ public class Main implements Runnable{
 
         while (q.isEmpty()) {
             size++;
-            while (list.get(num).components.size() == size) {
+            while (list.get(num).getComponents().size() == size) {
                 q.add(list.get(num));
                 flags.set(num, true);
                 num++;
@@ -135,7 +136,7 @@ public class Main implements Runnable{
                 flag = true;
                 while (flag){
                     if (!flags.get(i)){
-                        size_ = list.get(i).components.size();
+                        size_ = list.get(i).getComponents().size();
                         q.add(list.get(i));
                         flags.set(i,true);
                         flag = false;
@@ -144,7 +145,7 @@ public class Main implements Runnable{
                         i++;
                 }
                 i++;
-                while (i < list.size() && list.get(i).components.size() == size_){
+                while (i < list.size() && list.get(i).getComponents().size() == size_){
                     q.add(list.get(i++));
                     flags.set(i, true);
                 }
@@ -155,11 +156,11 @@ public class Main implements Runnable{
     }
 
     boolean contains (Juice what, Juice where){
-        if (what.components.size() > where.components.size())
+        if (what.getComponents().size() > where.getComponents().size())
             return false;
 
-        for (String s: what.components){
-            if (!where.components.contains(s))
+        for (String s: what.getComponents()){
+            if (!where.getComponents().contains(s))
                 return false;
         }
 
