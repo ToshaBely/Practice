@@ -5,10 +5,33 @@ import java.util.*;
 
 public class Main implements Runnable{
 
-    private TreeSet <String> products;
-    private ArrayList <String> normalProducts;
-    private ArrayList <Juice> list;
+    private Set <String> products;
+    private List <String> normalProducts;
+    private List <Juice> list;
 
+    public void setList(List<Juice> list) {
+        this.list = list;
+    }
+
+    public void setProducts(Set<String> products) {
+        this.products = products;
+    }
+
+    public void setNormalProducts(List<String> normalProducts) {
+        this.normalProducts = normalProducts;
+    }
+
+    public List<Juice> getList() {
+        return list;
+    }
+
+    public List<String> getNormalProducts() {
+        return normalProducts;
+    }
+
+    public Set<String> getProducts() {
+        return products;
+    }
 
     public static void main(String [] args) throws IOException{
         new Main().doIt();
@@ -26,7 +49,6 @@ public class Main implements Runnable{
         input ("juice.in");
         output1("juice1.out");
         output2("juice2.out");
-      //  Collections.sort(list, new ComponentComparator());
         new Thread(this).start();
         output3("juice3.out", minMove());
     }
@@ -48,8 +70,7 @@ public class Main implements Runnable{
         Juice j;
 
         while (str != null){
-            j = new Juice();
-            j.inputComponents(str);
+            j = new Juice(str);
             list.add(j);
             addProd(str);
             str = br.readLine();
