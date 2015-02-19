@@ -18,7 +18,7 @@ public class Main implements Runnable{
         Collections.sort(list, new ComponentComparator());
     }
 
-    void doIt () throws IOException{
+    private void doIt () throws IOException{
         normalProducts = new ArrayList<String>();
         products = new TreeSet<String>();
         list = new ArrayList<Juice>();
@@ -31,7 +31,7 @@ public class Main implements Runnable{
         output3("juice3.out", minMove());
     }
 
-    void addProd (String str) {
+    private void addProd (String str) {
         StringTokenizer st = new StringTokenizer(str);
         String s;
 
@@ -42,7 +42,7 @@ public class Main implements Runnable{
         }
     }
 
-    void input(String source) throws IOException{
+    private void input(String source) throws IOException{
         BufferedReader br = new BufferedReader(new FileReader (source));
         String str = br.readLine();
         Juice j;
@@ -56,7 +56,7 @@ public class Main implements Runnable{
         }
     }
 
-    void output1 (String des) throws IOException {
+    private void output1 (String des) throws IOException {
         PrintWriter pw = new PrintWriter(new FileWriter(des));
 
         for (String s: normalProducts){
@@ -66,7 +66,7 @@ public class Main implements Runnable{
         pw.flush();
     }
 
-    void output2 (String des) throws IOException {
+    private void output2 (String des) throws IOException {
         PrintWriter pw = new PrintWriter(new FileWriter(des));
 
         for (String s: products){
@@ -76,14 +76,14 @@ public class Main implements Runnable{
         pw.flush();
     }
 
-    void output3 (String des, int a) throws IOException {
+    private void output3 (String des, int a) throws IOException {
         PrintWriter pw = new PrintWriter(new FileWriter(des));
 
         pw.print(a);
         pw.flush();
     }
 
-    int minMove () {
+    private int minMove () {
         ArrayList <Juice> q = new ArrayList<Juice>();
         ArrayList <Boolean> flags = new ArrayList<Boolean>(list.size());
         int size = 0;
@@ -155,7 +155,7 @@ public class Main implements Runnable{
         return count;
     }
 
-    boolean contains (Juice what, Juice where){
+    private boolean contains (Juice what, Juice where){
         if (what.getComponents().size() > where.getComponents().size())
             return false;
 

@@ -15,7 +15,7 @@ public class Juice {
     Juice() {
         components = new ArrayList<String>();
     }
-    void inputComponents (String str){
+    public void inputComponents (String str){
         StringTokenizer st = new StringTokenizer(str);
         while (st.hasMoreTokens()){
             components.add(st.nextToken());
