@@ -3,94 +3,65 @@ package juice;
 import java.io.*;
 import java.util.*;
 
-public class Main implements Runnable{
+public class Main {
 
-    private Set <String> products;
-    private List <String> normalProducts;
-    private List <Juice> list;
-
-    public void setList(List<Juice> list) {
-        this.list = list;
-    }
-
-    public void setProducts(Set<String> products) {
-        this.products = products;
-    }
-
-    public void setNormalProducts(List<String> normalProducts) {
-        this.normalProducts = normalProducts;
-    }
-
-    public List<Juice> getList() {
-        return list;
-    }
-
-    public List<String> getNormalProducts() {
-        return normalProducts;
-    }
-
-    public Set<String> getProducts() {
-        return products;
-    }
-
-    public static void main(String [] args) throws IOException{
+    public static void main(String [] args) throws IOException {
         new Main().doIt();
     }
 
-    public void run() {
-        Collections.sort(list, new ComponentComparator());
+    private void doIt () throws IOException {
+        Elements elements = new Elements();
+        input (elements, "juice.in");
+        output1(elements, "juice1.out");
+        output2(elements, "juice2.out");
+        sort(elements);
+        output3("juice3.out", minMove(elements));
+        Collections.sort(elements.getList(), new ComponentComparator());
     }
 
-    private void doIt () throws IOException{
-        normalProducts = new ArrayList<String>();
-        products = new TreeSet<String>();
-        list = new ArrayList<Juice>();
-
-        input ("juice.in");
-        output1("juice1.out");
-        output2("juice2.out");
-        new Thread(this).start();
-        output3("juice3.out", minMove());
+    private void sort(Elements elements) {
+        Sort s = new Sort(elements.getList());
+        s.run();
+        elements.setList(s.getList());
     }
-
-    private void addProd (String str) {
+    private void addProd (Elements elem, String str) {
         StringTokenizer st = new StringTokenizer(str);
         String s;
 
-        while (st.hasMoreTokens()){
+        while (st.hasMoreTokens()) {
             s = st.nextToken();
-            if (products.add(s))
-                normalProducts.add(s);
+            if (elem.getProducts().add(s))
+                elem.getNormalProducts().add(s);
         }
     }
 
-    private void input(String source) throws IOException{
+    private void input(Elements elem, String source) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader (source));
         String str = br.readLine();
         Juice j;
 
-        while (str != null){
+        while (str != null) {
             j = new Juice(str);
-            list.add(j);
-            addProd(str);
+            elem.getList().add(j);
+            addProd(elem, str);
             str = br.readLine();
         }
     }
 
-    private void output1 (String des) throws IOException {
+    private void output1 (Elements elem, String des) throws IOException {
         PrintWriter pw = new PrintWriter(new FileWriter(des));
 
-        for (String s: normalProducts){
+        for (String s: elem.getNormalProducts()) {
             pw.println(s);
         }
 
         pw.flush();
     }
 
-    private void output2 (String des) throws IOException {
+    private void output2 (Elements elem, String des) throws IOException {
         PrintWriter pw = new PrintWriter(new FileWriter(des));
 
-        for (String s: products){
+        for (String s: elem.getProducts()) {
             pw.println(s);
         }
 
@@ -104,26 +75,26 @@ public class Main implements Runnable{
         pw.flush();
     }
 
-    private int minMove () {
+    private int minMove (Elements elements) {
         ArrayList <Juice> q = new ArrayList<Juice>();
-        ArrayList <Boolean> flags = new ArrayList<Boolean>(list.size());
+        ArrayList <Boolean> flags = new ArrayList<Boolean>(elements.getList().size());
         int size = 0;
 
-        for (int i = 0; i < list.size(); i++)
+        for (int i = 0; i < elements.getList().size(); i++)
             flags.add(false);
 
         int num = 0;
 
         while (q.isEmpty()) {
             size++;
-            while (list.get(num).getComponents().size() == size) {
-                q.add(list.get(num));
+            while (elements.getList().get(num).getComponents().size() == size) {
+                q.add(elements.getList().get(num));
                 flags.set(num, true);
                 num++;
             }
         }
 
-        size = list.size();
+        size = elements.getList().size();
         int count = 0;
         Juice juice;
         boolean flag;
@@ -133,13 +104,13 @@ public class Main implements Runnable{
             juice = q.get(elem++);
             flag = false;
             for (int i = num; i < size; i++)
-                if (!flags.get(i) && contains(juice, list.get(i))) {
-                    q.add(list.get(i));
+                if (!flags.get(i) && contains(juice, elements.getList().get(i))) {
+                    q.add(elements.getList().get(i));
                     flags.set(i, true);
                     flag = true;
                 }
 
-            if (!flag){
+            if (!flag) {
                 for (int i = 0; i < elem - 1; i++)
                     if (contains(juice, q.get(i))) {
                         flag = true;
@@ -151,14 +122,14 @@ public class Main implements Runnable{
 
             /*если какие-то соки не добавились (уникальные продукты)*/
 
-            if (elem == q.size() && elem < size){
+            if (elem == q.size() && elem < size) {
                 int i = num;
                 int size_ = -1;
                 flag = true;
                 while (flag){
-                    if (!flags.get(i)){
-                        size_ = list.get(i).getComponents().size();
-                        q.add(list.get(i));
+                    if (!flags.get(i)) {
+                        size_ = elements.getList().get(i).getComponents().size();
+                        q.add(elements.getList().get(i));
                         flags.set(i,true);
                         flag = false;
                     }
@@ -166,8 +137,8 @@ public class Main implements Runnable{
                         i++;
                 }
                 i++;
-                while (i < list.size() && list.get(i).getComponents().size() == size_){
-                    q.add(list.get(i++));
+                while (i < elements.getList().size() && elements.getList().get(i).getComponents().size() == size_) {
+                    q.add(elements.getList().get(i++));
                     flags.set(i, true);
                 }
             }
@@ -176,11 +147,11 @@ public class Main implements Runnable{
         return count;
     }
 
-    private boolean contains (Juice what, Juice where){
+    private boolean contains (Juice what, Juice where) {
         if (what.getComponents().size() > where.getComponents().size())
             return false;
 
-        for (String s: what.getComponents()){
+        for (String s: what.getComponents()) {
             if (!where.getComponents().contains(s))
                 return false;
         }

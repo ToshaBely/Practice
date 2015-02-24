@@ -21,10 +21,10 @@ public class Juice {
         components = new ArrayList<String>();
     }
 
-    public Juice(String str){
+    public Juice(String str) {
         components = new ArrayList<String>();
         StringTokenizer st = new StringTokenizer(str);
-        while (st.hasMoreTokens()){
+        while (st.hasMoreTokens()) {
             components.add(st.nextToken());
         }
         Collections.sort(components);
