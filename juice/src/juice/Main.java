@@ -12,11 +12,15 @@ public class Main {
     private void doIt () throws IOException {
         Elements elements = new Elements();
         input (elements, "juice.in");
-        output1(elements, "juice1.out");
-        output2(elements, "juice2.out");
+        output(elements.getNormalProducts(), "juice1.out");
+        output(elements.getProducts(), "juice2.out");
+
         sort(elements);
-        output3("juice3.out", minMove(elements));
-        Collections.sort(elements.getList(), new ComponentComparator());
+
+        PrintWriter pw = new PrintWriter(new FileWriter("juice3.out"));
+
+        pw.print(minMove(elements));
+        pw.flush();
     }
 
     private void sort(Elements elements) {
@@ -53,6 +57,16 @@ public class Main {
 
         for (String s: elem.getNormalProducts()) {
             pw.println(s);
+        }
+
+        pw.flush();
+    }
+
+    private void output (Collection collection, String des) throws IOException {
+        PrintWriter pw = new PrintWriter(new FileWriter(des));
+
+        for (Object obj: collection) {
+            pw.println(obj);
         }
 
         pw.flush();
