@@ -52,16 +52,6 @@ public class Main {
         }
     }
 
-    private void output1 (Elements elem, String des) throws IOException {
-        PrintWriter pw = new PrintWriter(new FileWriter(des));
-
-        for (String s: elem.getNormalProducts()) {
-            pw.println(s);
-        }
-
-        pw.flush();
-    }
-
     private void output (Collection collection, String des) throws IOException {
         PrintWriter pw = new PrintWriter(new FileWriter(des));
 
@@ -69,23 +59,6 @@ public class Main {
             pw.println(obj);
         }
 
-        pw.flush();
-    }
-
-    private void output2 (Elements elem, String des) throws IOException {
-        PrintWriter pw = new PrintWriter(new FileWriter(des));
-
-        for (String s: elem.getProducts()) {
-            pw.println(s);
-        }
-
-        pw.flush();
-    }
-
-    private void output3 (String des, int a) throws IOException {
-        PrintWriter pw = new PrintWriter(new FileWriter(des));
-
-        pw.print(a);
         pw.flush();
     }
 
