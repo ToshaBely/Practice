@@ -34,8 +34,9 @@ public class Main {
 
         while (st.hasMoreTokens()) {
             s = st.nextToken();
-            if (elem.getProducts().add(s))
+            if (elem.getProducts().add(s)) {
                 elem.getNormalProducts().add(s);
+            }
         }
     }
 
@@ -67,8 +68,9 @@ public class Main {
         ArrayList <Boolean> flags = new ArrayList<Boolean>(elements.getList().size());
         int size = 0;
 
-        for (int i = 0; i < elements.getList().size(); i++)
+        for (int i = 0; i < elements.getList().size(); i++) {
             flags.add(false);
+        }
 
         int num = 0;
 
@@ -90,21 +92,24 @@ public class Main {
         while (elem < size) {
             juice = q.get(elem++);
             flag = false;
-            for (int i = num; i < size; i++)
+            for (int i = num; i < size; i++) {
                 if (!flags.get(i) && contains(juice, elements.getList().get(i))) {
                     q.add(elements.getList().get(i));
                     flags.set(i, true);
                     flag = true;
                 }
+            }
 
             if (!flag) {
-                for (int i = 0; i < elem - 1; i++)
+                for (int i = 0; i < elem - 1; i++) {
                     if (contains(juice, q.get(i))) {
                         flag = true;
                         break;
                     }
-                if (!flag)
+                }
+                if (!flag) {
                     count++;
+                }
             }
 
             /*если какие-то соки не добавились (уникальные продукты)*/
@@ -113,15 +118,16 @@ public class Main {
                 int i = num;
                 int size_ = -1;
                 flag = true;
-                while (flag){
+                while (flag) {
                     if (!flags.get(i)) {
                         size_ = elements.getList().get(i).getComponents().size();
                         q.add(elements.getList().get(i));
                         flags.set(i,true);
                         flag = false;
                     }
-                    else
+                    else {
                         i++;
+                    }
                 }
                 i++;
                 while (i < elements.getList().size() && elements.getList().get(i).getComponents().size() == size_) {
@@ -135,12 +141,14 @@ public class Main {
     }
 
     private boolean contains (Juice what, Juice where) {
-        if (what.getComponents().size() > where.getComponents().size())
+        if (what.getComponents().size() > where.getComponents().size()) {
             return false;
+        }
 
         for (String s: what.getComponents()) {
-            if (!where.getComponents().contains(s))
+            if (!where.getComponents().contains(s)) {
                 return false;
+            }
         }
 
         return true;
