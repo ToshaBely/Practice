@@ -1,0 +1,67 @@
+textarea {
+    resize: none;
+    overflow: auto;
+}
+.main {
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    white-space: nowrap;
+}
+.hello {
+    position: relative;
+    height: 5%;
+    width: 100%;
+    text-align: center;
+    font-size: large;
+}
+.users {
+    position: relative;
+    width: 17%;
+    height: 98%;
+    bottom: 3px;
+    float: left;
+    top: 3px;
+    border: #00FFFF 2px solid;
+}
+.messageBox {
+    position: relative;
+    float: left;
+    width: 82%;
+    height: 98%;
+    bottom: 3px;
+    top: 3px;
+    border: solid 2px rgba(0,255,0,1);
+}
+.readText {
+    position: relative;
+    width: 95%;
+    height: 100%;
+    left: 1%;
+    margin: 4px;
+    overflow: auto;
+    border: solid 2px yellow;
+}
+.inputText {
+    position: absolute;
+    width: 80%;
+    height: 1.2em;
+    left: 5%;
+    margin: 4px;
+    border: solid 2px red;
+    margin-bottom: 10px;
+}
+.buttonSend {
+    position: absolute;
+    height: 2em;
+    width: 10%;
+    right: 4%;
+}
+.buttonLogIn {
+    position: relative;
+    height: 2em;
+    width: 97%;
+    left: 3%;
+}
