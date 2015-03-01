@@ -24,7 +24,6 @@ textarea {
     bottom: 3px;
     float: left;
     top: 3px;
-    border: #00FFFF 2px solid;
 }
 .messageBox {
     position: relative;
@@ -33,7 +32,6 @@ textarea {
     height: 98%;
     bottom: 3px;
     top: 3px;
-    border: solid 2px rgba(0,255,0,1);
 }
 .readText {
     position: relative;
@@ -42,15 +40,13 @@ textarea {
     left: 1%;
     margin: 4px;
     overflow: auto;
-    border: solid 2px yellow;
 }
 .inputText {
     position: absolute;
     width: 80%;
     height: 1.2em;
-    left: 5%;
+    left: 3%;
     margin: 4px;
-    border: solid 2px red;
     margin-bottom: 10px;
 }
 .buttonSend {
