@@ -2,6 +2,7 @@ textarea {
     resize: none;
     overflow: auto;
 }
+/*
 .main {
     position: relative;
     top: 0;
@@ -42,22 +43,67 @@ textarea {
     overflow: auto;
 }
 .inputText {
-    position: absolute;
-    width: 80%;
-    height: 1.2em;
+    position: relative;
+    width: 77%;
+    height: 2em;
+    bottom: 1%;
     left: 3%;
-    margin: 4px;
-    margin-bottom: 10px;
+    overflow: auto;
 }
 .buttonSend {
     position: absolute;
     height: 2em;
+    bottom: 1%;
     width: 10%;
-    right: 4%;
+    right: 6%;
 }
 .buttonLogIn {
     position: relative;
     height: 2em;
     width: 97%;
     left: 3%;
+}*/
+
+/* new styles */
+
+#toolBar {
+    border: 2px solid red;
+}
+
+#mainFrame {
+    border: 2px solid green;
+}
+
+#inputText {
+    width: 80%;
+}
+
+#inputName {
+    position: absolute;
+    width: 20%;
+    right: 13%;
+}
+
+#inputArea {
+    position: absolute;
+    width: 78%;
+    bottom: 1%;
+    border: 2px solid red;
+}
+
+#btnName {
+    position: absolute;
+    width: 10%;
+    right: 2%;
+}
+
+#btnSend {
+    width: 7%;
+}
+
+#name {
+    position: absolute;
+    height: 2em;
+    width: 20%;
+    left: 40%;
 }

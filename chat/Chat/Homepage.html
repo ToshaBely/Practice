@@ -4,34 +4,26 @@
     <meta charset="UTF-8">
     <title>My first page for chat</title>
 </head>
-<body bgcolor="silver", text="#101010">
+<body>
+<link rel = "stylesheet" href="css/bootstrap.min.css">
 <link rel = "stylesheet" href="styles.css">
-<div class="main">
-    <div class="hello">
-        Welcome to chat!
+<script src = "js/jquery-1.11.2.min.js" type="text/javascript"></script>
+<script src = "js/bootstrap.min.js" type="text/javascript"></script>
+<div class="container">
+    <div class = "col-md-12" id = "toolBar">
+            <textarea disabled id = "name" placeholder="Your name"></textarea>
+        <input id = "inputName" type="text" class="input-medium search-query">
+        <button id = "btnName" type="submit" class="btn btn-success">Change name!</button>
+        <br/><br/>
+        <div class="col-md-12 message"> <span class = "author">Anton: </span>Text message.</div>
+        <div class="col-md-12 message"> <span class = "author">Anton: </span>Message.</div>
+        <div class="col-md-12 message"> <span class = "author">Anton: </span>Rororororore.</div>
     </div>
-    <div class="users">
-        <div>
-            <textarea class="readText" rows="25" placeholder="All users:" disabled></textarea>
-        </div>
-        <div>
-            <input type="text" class="inputText" placeholder="Enter nickname">
-        </div>
-        <br><br>
-        <div>
-            <input type="submit" class="buttonLogIn" value="Log in!">
-        </div>
-    </div>
-    <div class="messageBox">
-        <div>
-            <textarea rows="33" class="readText" disabled>Your messages!</textarea>
-        </div>
-        <div>
-            <input type="text" class="inputText" placeholder="Type a message!">
-        </div>
-        <div>
-            <input type="submit" class="buttonSend" value="Send!">
-        </div>
+</div>
+<div class="container">
+    <div class = "col-md-12" id = "inputArea">
+        <input id = "inputText" type="text" class="input-medium search-query">
+        <button id = "btnSend" type="submit" class="btn btn-success">Send!</button>
     </div>
 </div>
 </body>
