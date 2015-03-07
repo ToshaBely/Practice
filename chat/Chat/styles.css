@@ -2,80 +2,27 @@ textarea {
     resize: none;
     overflow: auto;
 }
-/*
-.main {
-    position: relative;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    white-space: nowrap;
-}
-.hello {
-    position: relative;
-    height: 5%;
-    width: 100%;
-    text-align: center;
-    font-size: large;
-}
-.users {
-    position: relative;
-    width: 17%;
-    height: 98%;
-    bottom: 3px;
-    float: left;
-    top: 3px;
-}
-.messageBox {
-    position: relative;
-    float: left;
-    width: 82%;
-    height: 98%;
-    bottom: 3px;
-    top: 3px;
-}
-.readText {
-    position: relative;
-    width: 95%;
-    height: 100%;
-    left: 1%;
-    margin: 4px;
-    overflow: auto;
-}
-.inputText {
-    position: relative;
-    width: 77%;
-    height: 2em;
-    bottom: 1%;
-    left: 3%;
-    overflow: auto;
-}
-.buttonSend {
-    position: absolute;
-    height: 2em;
-    bottom: 1%;
-    width: 10%;
-    right: 6%;
-}
-.buttonLogIn {
-    position: relative;
-    height: 2em;
-    width: 97%;
-    left: 3%;
-}*/
 
 /* new styles */
-
-#toolBar {
-    border: 2px solid red;
+#history {
+    top: 5%;
+    width: 80%;
+    height: 80%;
+    left: 10%;
+    overflow: auto;
+  /*  border: 2px solid red; */
+    position: absolute;
 }
 
-#mainFrame {
-    border: 2px solid green;
+#toolBar {
+    position: absolute;
+    width: 80%;
+    left: 10%;
+    height: 4%;
 }
 
 #inputText {
-    width: 80%;
+    width: 87%;
 }
 
 #inputName {
@@ -85,10 +32,11 @@ textarea {
 }
 
 #inputArea {
+    width: 80%;
+    left: 10%;
     position: absolute;
-    width: 78%;
     bottom: 1%;
-    border: 2px solid red;
+  /*  border: 2px solid red; */
 }
 
 #btnName {
