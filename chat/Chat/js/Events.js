@@ -15,18 +15,19 @@ function run() {
         count++;
         document.getElementById("history").appendChild(item);
     });
+}
+function funDelete(str) {
+    var item = document.getElementById(str);
+    item.parentNode.removeChild(item);
+}
 
-    var del = document.getElementById("history");
-    del.addEventListener("click", delegateEvent)
-    // don`t work--------------------
-    /*
-    var del = document.getElementsByClassName("deleteMessage");
-    del.addEventListener("click", function() {
-        alert("it`s work");
-        var item = document.getElementById(event.targets.id.value);
-        item.deleteContents();
-    });*/
-    //------------------------
+function funChange(str) {
+    var item = document.getElementById(str);
+    var text = prompt("Enter alternative text", item.childNodes[3].innerHTML);
+    while (!text) {
+        var text = prompt("Enter alternative text", item.childNodes[3].innerHTML);
+    }
+    item.childNodes[3].innerHTML = text;
 }
 
 function createMessage(mes, count) {
@@ -48,9 +49,13 @@ function createMessage(mes, count) {
     btnDel.classList.add("btn");
     btnDel.classList.add("deleteMessage");
     btnDel.setAttribute("type", "button");
+    btnDel.classList.add("message-" + count.toString());
+    btnDel.setAttribute("onclick", "funDelete(this.classList[2])");
     btnChange.classList.add("btn");
     btnChange.classList.add("changeMessage");
     btnChange.setAttribute("type", "button");
+    btnChange.classList.add("message-" + count.toString());
+    btnChange.setAttribute("onclick", "funChange(this.classList[2])");
 
     del.classList.add("glyphicon");
     del.classList.add("glyphicon-remove");
