@@ -3,26 +3,28 @@ textarea {
     overflow: auto;
 }
 
-/* new styles */
 #history {
-    top: 5%;
+    top: 10%;
     width: 80%;
-    height: 80%;
+    height: 75%;
     left: 10%;
     overflow: auto;
-  /*  border: 2px solid red; */
     position: absolute;
+    border: #808080 1px solid;
 }
 
 #toolBar {
+    top: 2%;
     position: absolute;
     width: 80%;
     left: 10%;
-    height: 4%;
+    height: 6%;
 }
 
 #inputText {
-    width: 87%;
+    position: relative;
+    left: 1.5%;
+    width: 85%;
 }
 
 #inputName {
@@ -35,18 +37,20 @@ textarea {
     width: 80%;
     left: 10%;
     position: absolute;
-    bottom: 1%;
-  /*  border: 2px solid red; */
+    bottom: 2%;
 }
 
 #btnName {
     position: absolute;
     width: 10%;
+    height: 2em;
     right: 2%;
 }
 
 #btnSend {
+    position: relative;
     width: 7%;
+    left: 2%;
 }
 
 #name {
@@ -54,4 +58,11 @@ textarea {
     height: 2em;
     width: 20%;
     left: 40%;
+}
+
+#serverStatus {
+    position: relative;
+    left: 1.5%;
+    color: green;
+    height: 2em;
 }

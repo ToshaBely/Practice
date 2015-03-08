@@ -12,20 +12,20 @@
 <script src = "js/Events.js" type = "text/javascript"></script>
 <div class="container">
     <div class="col-md-12" id="toolBar">
+        <textarea disabled id="serverStatus">Server is availible!</textarea>
         <textarea disabled id = "name" placeholder="Your name" ></textarea>
-        <input id = "inputName" type="text" class="input-medium search-query">
+        <input id = "inputName" type="text" class="input-medium search-query" placeholder="Enter name!">
         <button id = "btnName" type="submit" class="btn btn-success">Change name!</button>
     </div>
 </div>
 <div class="container">
     <div class = "col-md-12" id = "history">
-        <div class="col-md-12 message" id = "message-0"><span class = "author">Anton: </span><button type = "button", class="btn deleteMessage message-0" onclick="funDelete(this.classList[2])"><i class = "glyphicon glyphicon-remove"></i></button><button type = "button", class="btn changeMessage message-0" onclick="funChange(this.classList[2])"><i class = "glyphicon glyphicon-cog"></i></button><pre>Text message.</pre></div>
+        <div class="col-md-12 message" id = "message-0"><span class = "author">Anton: </span><button type = "button" class="btn deleteMessage message-0" onclick="funDelete(this.classList[2])"><i class = "glyphicon glyphicon-remove"></i></button><button type = "button", class="btn changeMessage message-0" onclick="funChange(this.classList[2])"><i class = "glyphicon glyphicon-cog"></i></button><pre>Text message.</pre></div>
     </div>
 </div>
 <div class="container">
     <div class = "col-md-12" id = "inputArea">
-        <textarea id = "inputText" class = "input-group-sm"></textarea>
-        <!--<input id = "inputText" type="text" class="input-medium search-query">-->
+        <textarea id = "inputText" class = "input-group-sm" placeholder="Enter message!"></textarea>
         <button id = "btnSend" type="submit" class="btn btn-success">Send!</button>
     </div>
 </div>
