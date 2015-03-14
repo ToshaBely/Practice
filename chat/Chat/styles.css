@@ -3,6 +3,41 @@ textarea {
     overflow: auto;
 }
 
+#toolBar {
+    top: 2%;
+    position: absolute;
+    width: 80%;
+    left: 10%;
+    height: 6%;
+}
+
+#serverStatus {
+    position: relative;
+    left: 1.5%;
+    color: green;
+    height: 2em;
+}
+
+#name {
+    position: absolute;
+    height: 2em;
+    width: 20%;
+    left: 40%;
+}
+
+#inputName {
+    position: absolute;
+    width: 20%;
+    right: 13%;
+}
+
+#btnName {
+    position: absolute;
+    width: 10%;
+    height: 2em;
+    right: 2%;
+}
+
 #history {
     top: 10%;
     width: 80%;
@@ -13,56 +48,45 @@ textarea {
     border: #808080 1px solid;
 }
 
-#toolBar {
-    top: 2%;
-    position: absolute;
-    width: 80%;
+.deleteMessage {
+    margin: 1px;
+}
+
+.changeMessage {
+    margin: 1px;
+}
+
+.textMessage {
+
+}
+
+.setInvisible {
+    visibility: hidden;
+}
+
+#inputArea {
+    width: 75%;
     left: 10%;
-    height: 6%;
+    position: absolute;
+    bottom: 3%;
 }
 
 #inputText {
     position: relative;
     left: 1.5%;
-    width: 85%;
-}
-
-#inputName {
-    position: absolute;
-    width: 20%;
-    right: 13%;
-}
-
-#inputArea {
     width: 80%;
-    left: 10%;
-    position: absolute;
-    bottom: 2%;
-}
-
-#btnName {
-    position: absolute;
-    width: 10%;
-    height: 2em;
-    right: 2%;
 }
 
 #btnSend {
     position: relative;
-    width: 7%;
+    width: 6%;
+    height: 2%;
     left: 2%;
 }
 
-#name {
-    position: absolute;
-    height: 2em;
-    width: 20%;
-    left: 40%;
-}
-
-#serverStatus {
+#btnChangeMessage {
+    width: 6%;
+    height: 2%;
+    left: 2%;
     position: relative;
-    left: 1.5%;
-    color: green;
-    height: 2em;
 }

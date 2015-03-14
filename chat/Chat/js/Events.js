@@ -1,46 +1,76 @@
+'use strict'
+
+var messageList = [];
+var nowID;
+
+function createMes(textNew, authorNew) {
+    return {
+        text: textNew,
+        author: authorNew,
+        id: uniqueID()
+    };
+};
+
+function uniqueID() {
+    var date = Date.now();
+    var random = Math.random() * Math.random();
+
+    return Math.floor(date * random).toString();
+};
+
+function visibleButtons() {
+    var author = document.getElementById("name").value;
+    var mes;
+    messageList.forEach(function(msg, index) {
+        var mes = document.getElementById(msg.id);
+        if (msg.author != author) {
+            mes.getElementsByClassName("deleteMessage")[0].classList.add("setInvisible");
+            mes.getElementsByClassName("changeMessage")[0].classList.add("setInvisible");
+        }
+        else {
+            mes.getElementsByClassName("deleteMessage")[0].classList.remove("setInvisible");
+            mes.getElementsByClassName("changeMessage")[0].classList.remove("setInvisible");
+        }
+    });
+};
+
 function run() {
-    var count = document.getElementById("history").childElementCount;
     var name = document.getElementById("btnName");
     name.addEventListener("click", function () {
         var name = document.getElementById("inputName").value;
         document.getElementById("inputName").value = '';
-        document.getElementById("name").innerHTML = name;
+        document.getElementById("name").value = name;
+        visibleButtons();
     });
 
     var message = document.getElementById("btnSend");
     message.addEventListener("click", function() {
-        var text = document.getElementById("inputText").value;
+        if (!document.getElementById("inputText").value) {
+            return;
+        }
+
+        if (!document.getElementById("name").value) {
+            alert ("Enter name!");
+            return;
+        }
+
+        var item = createMes(document.getElementById("inputText").value, document.getElementById("name").value);
+        messageList.push(item);
         document.getElementById("inputText").value = '';
-        var item = createMessage(text, count);
-        count++;
-        document.getElementById("history").appendChild(item);
+        document.getElementById("history").appendChild(writeUIMessage(item));
     });
-}
-function funDelete(str) {
-    var item = document.getElementById(str);
-    item.parentNode.removeChild(item);
-}
 
-function funChange(str) {
-    var item = document.getElementById(str);
-    var text = prompt("Enter alternative text", item.childNodes[3].innerHTML);
-    while (!text) {
-        var text = prompt("Enter alternative text", item.childNodes[3].innerHTML);
-    }
-    item.childNodes[3].innerHTML = text;
-}
+    var btn = document.getElementById("btnChangeMessage");
+    btn.addEventListener("click", changeMessage, false);
+};
 
-function createMessage(mes, count) {
-    if (!mes) {
-        return;
-    }
-    if (document.getElementById("name").value == '') {
-        alert ("Enter name!");
-        return;
-    }
+function writeUIMessage(elem) {
     var divItem = document.createElement("div");
-    var author = document.createElement("span");
-    var text = document.createElement("pre");
+    divItem.setAttribute("id", elem.id);
+
+    var spanElem = document.createElement("span");
+    spanElem.textContent = elem.author + ': ';
+
     var change = document.createElement("i");
     var del = document.createElement("i");
     var btnDel = document.createElement("button");
@@ -49,13 +79,13 @@ function createMessage(mes, count) {
     btnDel.classList.add("btn");
     btnDel.classList.add("deleteMessage");
     btnDel.setAttribute("type", "button");
-    btnDel.classList.add("message-" + count.toString());
-    btnDel.setAttribute("onclick", "funDelete(this.classList[2])");
+
+    btnDel.setAttribute("onclick", "funBtnDelete(this)");
     btnChange.classList.add("btn");
     btnChange.classList.add("changeMessage");
     btnChange.setAttribute("type", "button");
-    btnChange.classList.add("message-" + count.toString());
-    btnChange.setAttribute("onclick", "funChange(this.classList[2])");
+
+    btnChange.setAttribute("onclick", "funBtnChange(this)");
 
     del.classList.add("glyphicon");
     del.classList.add("glyphicon-remove");
@@ -65,16 +95,57 @@ function createMessage(mes, count) {
     btnDel.appendChild(del);
     btnChange.appendChild(change);
 
-    author.classList.add("author");
-    author.innerHTML = ' ' + document.getElementById("name").value + ': ';
-    divItem.classList.add("col-md-12");
-    divItem.classList.add("message");
-    divItem.appendChild(author);
+    var text = document.createElement("pre");
+    text.textContent = elem.text;
+    text.classList.add("textMessage");
+
+    divItem.appendChild(spanElem);
     divItem.appendChild(btnDel);
     divItem.appendChild(btnChange);
-    text.innerHTML = mes;
     divItem.appendChild(text);
-    divItem.id = "message-" + count.toString();
 
     return divItem;
-}
+};
+
+function funBtnDelete(elem) {
+    var parent = elem.parentNode;
+    document.getElementById(parent.id).parentNode.removeChild(document.getElementById(parent.id));
+};
+
+function funBtnChange(elem) {
+    var item = elem.parentNode;
+    var i = 1;
+    var mes = item.firstChild;
+    while (mes.nodeName == "#text" || !mes.classList.contains("textMessage")) {
+        mes = item.childNodes[i++];
+    }
+    document.getElementById("inputText").value = mes.firstChild.textContent;
+    var btn = document.getElementById("btnChangeMessage");
+    btn.classList.remove("setInvisible");
+    var send = document.getElementById("btnSend");
+    send.classList.add("setInvisible");
+    nowID = item.id;
+};
+
+function changeMessage() {
+    var text = document.getElementById("inputText");
+
+    while (!text.value) {
+        alert ("Enter some text!");
+        return;
+    }
+
+    var item = document.getElementById(nowID);
+    var i = 1;
+    var mes = item.firstChild;
+    while (mes.nodeName == "#text" || !mes.classList.contains("textMessage")) {
+        mes = item.childNodes[i++];
+    }
+
+    mes.innerHTML = text.value;
+    text.value = '';
+    var btn = document.getElementById("btnChangeMessage");
+    btn.classList.add("setInvisible");
+    var send = document.getElementById("btnSend");
+    send.classList.remove("setInvisible");
+};
