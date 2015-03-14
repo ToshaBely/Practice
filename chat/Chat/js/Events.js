@@ -20,18 +20,6 @@ function uniqueID() {
 
 function visibleButtons() {
     var author = document.getElementById("name").value;
-    var mes;
-    messageList.forEach(function(msg, index) {
-        var mes = document.getElementById(msg.id);
-        if (msg.author != author) {
-            mes.getElementsByClassName("deleteMessage")[0].classList.add("setInvisible");
-            mes.getElementsByClassName("changeMessage")[0].classList.add("setInvisible");
-        }
-        else {
-            mes.getElementsByClassName("deleteMessage")[0].classList.remove("setInvisible");
-            mes.getElementsByClassName("changeMessage")[0].classList.remove("setInvisible");
-        }
-    });
 };
 
 function run() {
@@ -58,6 +46,7 @@ function run() {
         messageList.push(item);
         document.getElementById("inputText").value = '';
         document.getElementById("history").appendChild(writeUIMessage(item));
+        document.getElementById("history").scrollTop = 99999999;
     });
 
     var btn = document.getElementById("btnChangeMessage");
@@ -69,6 +58,7 @@ function writeUIMessage(elem) {
     divItem.setAttribute("id", elem.id);
 
     var spanElem = document.createElement("span");
+    spanElem.classList.add("author")
     spanElem.textContent = elem.author + ': ';
 
     var change = document.createElement("i");
@@ -81,11 +71,14 @@ function writeUIMessage(elem) {
     btnDel.setAttribute("type", "button");
 
     btnDel.setAttribute("onclick", "funBtnDelete(this)");
+    btnDel.classList.add("setInvisible");
+
     btnChange.classList.add("btn");
     btnChange.classList.add("changeMessage");
     btnChange.setAttribute("type", "button");
 
     btnChange.setAttribute("onclick", "funBtnChange(this)");
+    btnChange.classList.add("setInvisible");
 
     del.classList.add("glyphicon");
     del.classList.add("glyphicon-remove");
@@ -103,6 +96,8 @@ function writeUIMessage(elem) {
     divItem.appendChild(btnDel);
     divItem.appendChild(btnChange);
     divItem.appendChild(text);
+    divItem.setAttribute("onmouseover", "showButtons(this)");
+    divItem.setAttribute("onmouseout", "hideButtons(this)")
 
     return divItem;
 };
@@ -164,3 +159,15 @@ function changeMessage() {
     }
     text.value = '';
 };
+
+function showButtons (msg) {
+    if (document.getElementById("name").value + ": " == msg.getElementsByClassName("author")[0].innerHTML) {
+        msg.getElementsByClassName("deleteMessage")[0].classList.remove("setInvisible");
+        msg.getElementsByClassName("changeMessage")[0].classList.remove("setInvisible");
+    }
+}
+
+function hideButtons (msg) {
+    msg.getElementsByClassName("deleteMessage")[0].classList.add("setInvisible");
+    msg.getElementsByClassName("changeMessage")[0].classList.add("setInvisible");
+}

@@ -48,6 +48,10 @@ textarea {
     border: #808080 1px solid;
 }
 
+.author {
+
+}
+
 .deleteMessage {
     margin: 1px;
 }
@@ -57,7 +61,6 @@ textarea {
 }
 
 .textMessage {
-
 }
 
 .setInvisible {
