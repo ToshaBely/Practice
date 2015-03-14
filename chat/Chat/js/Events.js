@@ -110,6 +110,14 @@ function writeUIMessage(elem) {
 function funBtnDelete(elem) {
     var parent = elem.parentNode;
     document.getElementById(parent.id).parentNode.removeChild(document.getElementById(parent.id));
+
+    for (var i = 0; i < messageList.length; i++) {
+        if (messageList[i].id == parent.id) {
+            messageList[i] = messageList[messageList.length - 1];
+            messageList.pop();
+            break;
+        }
+    }
 };
 
 function funBtnChange(elem) {
@@ -143,9 +151,16 @@ function changeMessage() {
     }
 
     mes.innerHTML = text.value;
-    text.value = '';
     var btn = document.getElementById("btnChangeMessage");
     btn.classList.add("setInvisible");
     var send = document.getElementById("btnSend");
     send.classList.remove("setInvisible");
+
+    for (var i = 0; i < messageList.length; i++) {
+        if (messageList[i].id == nowID) {
+            messageList[i].text = text.value;
+            break;
+        }
+    }
+    text.value = '';
 };
