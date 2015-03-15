@@ -18,21 +18,24 @@ function uniqueID() {
     return Math.floor(date * random).toString();
 };
 
-function visibleButtons() {
-    var author = document.getElementById("name").value;
-};
-
 function run() {
+
+    var data = restore();
+    if (data) {
+        messageList = data.messages;
+        document.getElementById("name").value = data.lastAuthor;
+        writeAll();
+    }
+
     var name = document.getElementById("btnName");
     name.addEventListener("click", function () {
         var name = document.getElementById("inputName").value;
         document.getElementById("inputName").value = '';
         document.getElementById("name").value = name;
-        visibleButtons();
     });
 
-    var message = document.getElementById("btnSend");
-    message.addEventListener("click", function() {
+    var send = document.getElementById("btnSend");
+    send.addEventListener("click", function() {
         if (!document.getElementById("inputText").value) {
             return;
         }
@@ -47,6 +50,7 @@ function run() {
         document.getElementById("inputText").value = '';
         document.getElementById("history").appendChild(writeUIMessage(item));
         document.getElementById("history").scrollTop = 99999999;
+        store(messageList);
     });
 
     var btn = document.getElementById("btnChangeMessage");
@@ -113,6 +117,8 @@ function funBtnDelete(elem) {
             break;
         }
     }
+
+    store(messageList);
 };
 
 function funBtnChange(elem) {
@@ -128,6 +134,8 @@ function funBtnChange(elem) {
     var send = document.getElementById("btnSend");
     send.classList.add("setInvisible");
     nowID = item.id;
+
+    store(messageList);
 };
 
 function changeMessage() {
@@ -170,4 +178,29 @@ function showButtons (msg) {
 function hideButtons (msg) {
     msg.getElementsByClassName("deleteMessage")[0].classList.add("setInvisible");
     msg.getElementsByClassName("changeMessage")[0].classList.add("setInvisible");
+}
+
+function store(item) {
+    var storeFile = {
+        lastAuthor: document.getElementById("name").value,
+        messages: item
+    };
+    localStorage.setItem("Data of chat", JSON.stringify(storeFile));
+}
+
+function restore() {
+    if (typeof (Storage) == "undefined") {
+        alert("localStorage is not accessible");
+        return;
+    }
+
+    var item = localStorage.getItem("Data of chat");
+
+    return item && JSON.parse(item);
+}
+
+function writeAll() {
+    for (var i = 0; i < messageList.length; i++) {
+        document.getElementById("history").appendChild(writeUIMessage(messageList[i]));
+    }
 }
