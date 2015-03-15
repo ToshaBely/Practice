@@ -32,6 +32,8 @@ function run() {
         var name = document.getElementById("inputName").value;
         document.getElementById("inputName").value = '';
         document.getElementById("name").value = name;
+
+        store(messageList);
     });
 
     var send = document.getElementById("btnSend");
@@ -55,6 +57,8 @@ function run() {
 
     var btn = document.getElementById("btnChangeMessage");
     btn.addEventListener("click", changeMessage, false);
+
+    document.getElementById("history").scrollTop = 99999999;
 };
 
 function writeUIMessage(elem) {
@@ -134,8 +138,6 @@ function funBtnChange(elem) {
     var send = document.getElementById("btnSend");
     send.classList.add("setInvisible");
     nowID = item.id;
-
-    store(messageList);
 };
 
 function changeMessage() {
@@ -166,6 +168,9 @@ function changeMessage() {
         }
     }
     text.value = '';
+
+    store(messageList);
+    document.getElementById("history").scrollTop = 99999999;
 };
 
 function showButtons (msg) {
