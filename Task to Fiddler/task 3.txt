@@ -1,0 +1,11 @@
+POST http://localhost:999/chat?token=TN11EN
+User-Agent: Composer
+Content-Type: application/json
+{"message": "new"}
+ -- response --
+200 OK
+Date:  Tue, 24 Mar 2015 15:21:01 GMT
+Transfer-Encoding:  chunked
+
+
+
