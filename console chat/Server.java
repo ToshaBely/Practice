@@ -47,6 +47,8 @@ public class Server implements HttpHandler {
             response = doGet(httpExchange);
         } else if ("POST".equals(httpExchange.getRequestMethod())) {
             doPost(httpExchange);
+        } else if ("PUT".equals(httpExchange.getRequestMethod())) {
+            doPut(httpExchange);
         } else if ("DELETE".equals(httpExchange.getRequestMethod())) {
             doDelete(httpExchange);
         } else {
@@ -91,13 +93,31 @@ public class Server implements HttpHandler {
         return  "Absent query in url";
     }
 
-    private void doPost(HttpExchange httpExchange) throws IOException{
+    private void doPost(HttpExchange httpExchange) throws IOException {
         try {
             JSONObject jsonMessage = messageExchange.getJSONMessage(httpExchange.getRequestBody());
             System.out.println("Get Message from " + jsonMessage.get("user") + " : " + jsonMessage.get("message"));
+            System.out.println(jsonMessage.toJSONString());
             placeHistory.put(jsonMessage.get("id"), history.size());
             history.add(jsonMessage);
         } catch (ParseException e) {
+            System.err.println("Invalid user message: " + httpExchange.getRequestBody() + " " + e.getMessage());
+        }
+    }
+
+    private void doPut (HttpExchange httpExchange) throws IOException {
+        try {
+
+            JSONObject jsonMessage = messageExchange.getJSONMessage(httpExchange.getRequestBody());
+            Object id = jsonMessage.get("id");
+            if (!placeHistory.containsKey(id) || "".equals(history.get(placeHistory.get(id)).get("message"))) {
+                return;
+            }
+            JSONObject jsonObject = history.get(placeHistory.get(id));
+            jsonObject.put("message", jsonMessage.get("message"));
+            history.set(placeHistory.get(id), jsonObject);
+        }
+        catch (ParseException e) {
             System.err.println("Invalid user message: " + httpExchange.getRequestBody() + " " + e.getMessage());
         }
     }
