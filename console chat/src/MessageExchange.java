@@ -48,21 +48,15 @@ public class MessageExchange {
     }
 
     public String inputStreamToString(InputStream in) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int length = 0;
-        try {
-            while ((length = in.read(buffer)) != -1) {
-                baos.write(buffer, 0, length);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-       /* finally {
-            in.close();
-        }*/
-        // close stream in finally
-        // ilyabuziuk@gmail.com
-        return new String(baos.toByteArray());
+       		StringBuilder out = new StringBuilder();
+       		BufferedReader br = new BufferedReader(new InputStreamReader(in));
+       		try {
+           		for (String line = br.readLine(); line != null; line = br.readLine()) {
+                    out.append(line);
+                }
+           	} finally {
+           		br.close();
+           	}
+       	    return out.toString();
     }
 }
