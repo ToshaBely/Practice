@@ -1,11 +1,11 @@
-POST http://localhost:999/chat?token=TN11EN
-User-Agent: Composer
-Content-Type: application/json
-{"message": "new"}
- -- response --
+POST /chat HTTP/1.1
+Host: localhost:999
+Cache-Control: no-cache
+
+{"message":"hello", "id":"1", "user":"Anton"}
+
 200 OK
 Date:  Tue, 24 Mar 2015 15:21:01 GMT
-Transfer-Encoding:  chunked
 
 
 

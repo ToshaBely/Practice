@@ -1,12 +1,24 @@
-GET http://localhost:999/chat?token=TN11EN HTTP/1.1
-User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3
-Connection: keep-alive
+GET /chat?token=TN11EN HTTP/1.1
 Host: localhost:999
+Cache-Control: no-cache
 
-HTTP/1.1 200 OK
-Date: Tue, 24 Mar 2015 14:41:11 GMT
-Content-Length:  59
+Status 200 OK
+Access-control-allow-origin → *
+Content-length → 138
+Date → Thu, 09 Apr 2015 13:41:48 GMT
 
-{"messages":["dfdg","fgfd","fgd","hello"],"token":"TN43EN"}
+{
+    "messages": [
+        {
+            "id": "8514",
+            "message": "hello",
+            "user": "User-5390"
+        },
+        {
+            "id": "5278",
+            "message": "what`s up?",
+            "user": "User-5390"
+        }
+    ],
+    "token": "TN27EN"
+}
