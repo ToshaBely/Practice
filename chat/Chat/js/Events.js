@@ -5,8 +5,8 @@ var nowID;
 
 function createMes(textNew, authorNew) {
     return {
-        text: textNew,
-        author: authorNew,
+        message: textNew,
+        user: authorNew,
         id: uniqueID()
     };
 }
@@ -63,6 +63,7 @@ function run() {
         document.getElementById("inputText").value = '';
         document.getElementById("history").appendChild(writeUIMessage(item));
         doPost (appState.mainUrl, JSON.stringify(item), function() {
+            // restore() and get-request
             alert("new message");
         }, null);
         document.getElementById("history").scrollTop = 99999999;
@@ -81,7 +82,7 @@ function writeUIMessage(elem) {
 
     var spanElem = document.createElement("span");
     spanElem.classList.add("author")
-    spanElem.textContent = elem.author + ': ';
+    spanElem.textContent = elem.user + ': ';
 
     var change = document.createElement("i");
     var del = document.createElement("i");
@@ -111,7 +112,7 @@ function writeUIMessage(elem) {
     btnChange.appendChild(change);
 
     var text = document.createElement("pre");
-    text.textContent = elem.text;
+    text.textContent = elem.message;
     text.classList.add("textMessage");
 
     divItem.appendChild(spanElem);
@@ -129,6 +130,7 @@ function funBtnDelete(elem) {
     document.getElementById(parent.id).parentNode.removeChild(document.getElementById(parent.id));
     var idJSON = createIdJSON(parent.id);
     doDelete(appState.mainUrl, JSON.stringify(idJSON), function() {
+        // restore() and get-request
         alert("Deleted");
     }, null);
 
@@ -161,7 +163,10 @@ function funBtnChange(elem) {
 function changeMessage() {
     var text = document.getElementById("inputText");
 
-    doPut(appState.mainUrl,JSON.stringify({id: nowID, text: text.value}), function() {alert('changed');}, null);
+    doPut(appState.mainUrl,JSON.stringify({id: nowID, message: text.value}), function() {
+        // restore() and get-request
+        alert('changed');
+    }, null);
 
     while (!text.value) {
         alert ("Enter some text!");
@@ -183,7 +188,7 @@ function changeMessage() {
 
     for (var i = 0; i < messageList.length; i++) {
         if (messageList[i].id == nowID) {
-            messageList[i].text = text.value;
+            messageList[i].message = text.value;
             break;
         }
     }
@@ -230,11 +235,6 @@ function writeAll() {
     }
 }
 
-/*function refreshHistory() {
-    удаляем всю историю и пишем заново
-}
- */
-
 // "начинка" ajax
 
 function defaultErrorHandler(message) {
@@ -256,7 +256,6 @@ function doPut(url, data, continueWith, continueWithError) {
 
 function doDelete(url, data, continueWith, continueWithError) {
     ajax('DELETE', url, data, continueWith, continueWithError);
-    // отправляет запрос OPTIONS ???
 }
 
 function isError(text) {

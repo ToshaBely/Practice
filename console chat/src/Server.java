@@ -51,6 +51,8 @@ public class Server implements HttpHandler {
             doPut(httpExchange);
         } else if ("DELETE".equals(httpExchange.getRequestMethod())) {
             doDelete(httpExchange);
+        } else if ("OPTIONS".equals(httpExchange.getRequestMethod())) {
+            response = "";
         } else {
             response = "Unsupported http method: " + httpExchange.getRequestMethod();
         }
@@ -98,11 +100,11 @@ public class Server implements HttpHandler {
     private void doPost(HttpExchange httpExchange) throws IOException {
         try {
             JSONObject jsonMessage = messageExchange.getJSONMessage(httpExchange.getRequestBody());
-            if ("".equals(jsonMessage.get("message"))) {
+            if ("".equals(jsonMessage.get("text"))) {
                 return;
             }
 
-            System.out.println("Get Message from " + jsonMessage.get("author") + " : " + jsonMessage.get("text"));
+            System.out.println("Get Message from " + jsonMessage.get("user") + " : " + jsonMessage.get("message"));
             System.out.println(jsonMessage.toJSONString());
             placeHistory.put(jsonMessage.get("id"), history.size());
             history.add(jsonMessage);
@@ -134,6 +136,9 @@ public class Server implements HttpHandler {
             byte[] bytes = response.getBytes();
             Headers headers = httpExchange.getResponseHeaders();
             headers.add("Access-Control-Allow-Origin","*");
+            if("OPTIONS".equals(httpExchange.getRequestMethod())) {
+                headers.add("Access-Control-Allow-Methods", "PUT, DELETE, POST, GET, OPTIONS");
+            }
             httpExchange.sendResponseHeaders(200, bytes.length);
             OutputStream os = httpExchange.getResponseBody();
             os.write( bytes);
