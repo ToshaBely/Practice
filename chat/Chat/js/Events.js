@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var messageList = [];
 var nowID;
@@ -9,13 +9,24 @@ function createMes(textNew, authorNew) {
         author: authorNew,
         id: uniqueID()
     };
-};
+}
+
+function createIdJSON(id_) {
+    return {
+        id: id_
+    }
+}
 
 function uniqueID() {
     var date = Date.now();
     var random = Math.random() * Math.random();
 
     return Math.floor(date * random).toString();
+}
+
+var appState = {
+    mainUrl : 'http://localhost:6232/chat',
+    token : 'TE11EN'
 };
 
 function run() {
@@ -51,6 +62,9 @@ function run() {
         messageList.push(item);
         document.getElementById("inputText").value = '';
         document.getElementById("history").appendChild(writeUIMessage(item));
+        doPost (appState.mainUrl, JSON.stringify(item), function() {
+            alert("new message");
+        }, null);
         document.getElementById("history").scrollTop = 99999999;
         store(messageList);
     });
@@ -59,7 +73,7 @@ function run() {
     btn.addEventListener("click", changeMessage, false);
 
     document.getElementById("history").scrollTop = 99999999;
-};
+}
 
 function writeUIMessage(elem) {
     var divItem = document.createElement("div");
@@ -108,11 +122,15 @@ function writeUIMessage(elem) {
     divItem.setAttribute("onmouseout", "hideButtons(this)")
 
     return divItem;
-};
+}
 
 function funBtnDelete(elem) {
     var parent = elem.parentNode;
     document.getElementById(parent.id).parentNode.removeChild(document.getElementById(parent.id));
+    var idJSON = createIdJSON(parent.id);
+    doDelete(appState.mainUrl, JSON.stringify(idJSON), function() {
+        alert("Deleted");
+    }, null);
 
     for (var i = 0; i < messageList.length; i++) {
         if (messageList[i].id == parent.id) {
@@ -123,7 +141,7 @@ function funBtnDelete(elem) {
     }
 
     store(messageList);
-};
+}
 
 function funBtnChange(elem) {
     var item = elem.parentNode;
@@ -138,10 +156,12 @@ function funBtnChange(elem) {
     var send = document.getElementById("btnSend");
     send.classList.add("setInvisible");
     nowID = item.id;
-};
+}
 
 function changeMessage() {
     var text = document.getElementById("inputText");
+
+    doPut(appState.mainUrl,JSON.stringify({id: nowID, text: text.value}), function() {alert('changed');}, null);
 
     while (!text.value) {
         alert ("Enter some text!");
@@ -171,7 +191,7 @@ function changeMessage() {
 
     store(messageList);
     document.getElementById("history").scrollTop = 99999999;
-};
+}
 
 function showButtons (msg) {
     if (document.getElementById("name").value + ": " == msg.getElementsByClassName("author")[0].innerHTML) {
@@ -208,4 +228,90 @@ function writeAll() {
     for (var i = 0; i < messageList.length; i++) {
         document.getElementById("history").appendChild(writeUIMessage(messageList[i]));
     }
+}
+
+/*function refreshHistory() {
+    удаляем всю историю и пишем заново
+}
+ */
+
+// "начинка" ajax
+
+function defaultErrorHandler(message) {
+    console.error(message);
+    output(message);
+}
+
+function doGet(url, continueWith, continueWithError) {
+    ajax('GET', url, null, continueWith, continueWithError);
+}
+
+function doPost(url, data, continueWith, continueWithError) {
+    ajax('POST', url, data, continueWith, continueWithError);
+}
+
+function doPut(url, data, continueWith, continueWithError) {
+    ajax('PUT', url, data, continueWith, continueWithError);
+}
+
+function doDelete(url, data, continueWith, continueWithError) {
+    ajax('DELETE', url, data, continueWith, continueWithError);
+    // отправляет запрос OPTIONS ???
+}
+
+function isError(text) {
+    if(text == "")
+        return false;
+
+    try {
+        var obj = JSON.parse(text);
+    } catch(ex) {
+        return true;
+    }
+
+    return !!obj.error;
+}
+
+function ajax(method, url, data, continueWith, continueWithError) {
+    var xhr = new XMLHttpRequest();
+
+    continueWithError = continueWithError || defaultErrorHandler;
+    xhr.open(method || 'GET', url, true);
+
+    xhr.onload = function () {
+        if (xhr.readyState !== 4)
+            return;
+
+        if(xhr.status != 200) {
+            continueWithError('Error on the server side, response ' + xhr.status);
+            return;
+        }
+
+        if(isError(xhr.responseText)) {
+            continueWithError('Error on the server side, response ' + xhr.responseText);
+            return;
+        }
+
+        continueWith(xhr.responseText);
+    };
+
+    xhr.ontimeout = function () {
+        ontinueWithError('Server timed out !');
+    }
+
+    xhr.onerror = function (e) {
+        var errMsg = 'Server connection error !\n'+
+            '\n' +
+            'Check if \n'+
+            '- server is active\n'+
+            '- server sends header "Access-Control-Allow-Origin:*"';
+
+        continueWithError(errMsg);
+    };
+
+    xhr.send(data);
+}
+
+window.onerror = function(err) {
+    output(err.toString());
 }

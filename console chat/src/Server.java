@@ -102,7 +102,7 @@ public class Server implements HttpHandler {
                 return;
             }
 
-            System.out.println("Get Message from " + jsonMessage.get("user") + " : " + jsonMessage.get("message"));
+            System.out.println("Get Message from " + jsonMessage.get("author") + " : " + jsonMessage.get("text"));
             System.out.println(jsonMessage.toJSONString());
             placeHistory.put(jsonMessage.get("id"), history.size());
             history.add(jsonMessage);
