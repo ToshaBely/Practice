@@ -1,7 +1,8 @@
 'use strict';
 
-var messageList = [];
+//var messageList = [];
 var nowID;
+var version = 0;
 
 function createMes(textNew, authorNew) {
     return {
@@ -30,21 +31,13 @@ var appState = {
 };
 
 function run() {
-
-    var data = restore();
-    if (data) {
-        messageList = data.messages;
-        document.getElementById("name").value = data.lastAuthor;
-        writeAll();
-    }
+    restore();
 
     var name = document.getElementById("btnName");
     name.addEventListener("click", function () {
         var name = document.getElementById("inputName").value;
         document.getElementById("inputName").value = '';
         document.getElementById("name").value = name;
-
-        store(messageList);
     });
 
     var send = document.getElementById("btnSend");
@@ -58,21 +51,15 @@ function run() {
             return;
         }
 
+
         var item = createMes(document.getElementById("inputText").value, document.getElementById("name").value);
-        messageList.push(item);
         document.getElementById("inputText").value = '';
-        document.getElementById("history").appendChild(writeUIMessage(item));
-        doPost (appState.mainUrl, JSON.stringify(item), function() {
-            // restore() and get-request
-            alert("new message");
-        }, null);
+        doPost (appState.mainUrl, JSON.stringify(item), null, null);
         document.getElementById("history").scrollTop = 99999999;
-        store(messageList);
     });
 
     var btn = document.getElementById("btnChangeMessage");
     btn.addEventListener("click", changeMessage, false);
-
     document.getElementById("history").scrollTop = 99999999;
 }
 
@@ -129,20 +116,8 @@ function funBtnDelete(elem) {
     var parent = elem.parentNode;
     document.getElementById(parent.id).parentNode.removeChild(document.getElementById(parent.id));
     var idJSON = createIdJSON(parent.id);
-    doDelete(appState.mainUrl, JSON.stringify(idJSON), function() {
-        // restore() and get-request
-        alert("Deleted");
-    }, null);
-
-    for (var i = 0; i < messageList.length; i++) {
-        if (messageList[i].id == parent.id) {
-            messageList[i] = messageList[messageList.length - 1];
-            messageList.pop();
-            break;
-        }
-    }
-
-    store(messageList);
+    doDelete(appState.mainUrl, JSON.stringify(idJSON), null, null);
+    //version = 0;
 }
 
 function funBtnChange(elem) {
@@ -163,10 +138,7 @@ function funBtnChange(elem) {
 function changeMessage() {
     var text = document.getElementById("inputText");
 
-    doPut(appState.mainUrl,JSON.stringify({id: nowID, message: text.value}), function() {
-        // restore() and get-request
-        alert('changed');
-    }, null);
+    doPut(appState.mainUrl,JSON.stringify({id: nowID, message: text.value}), null, null);
 
     while (!text.value) {
         alert ("Enter some text!");
@@ -186,15 +158,14 @@ function changeMessage() {
     var send = document.getElementById("btnSend");
     send.classList.remove("setInvisible");
 
-    for (var i = 0; i < messageList.length; i++) {
+    /*for (var i = 0; i < messageList.length; i++) {
         if (messageList[i].id == nowID) {
             messageList[i].message = text.value;
             break;
         }
-    }
+    }*/
     text.value = '';
 
-    store(messageList);
     document.getElementById("history").scrollTop = 99999999;
 }
 
@@ -210,28 +181,35 @@ function hideButtons (msg) {
     msg.getElementsByClassName("changeMessage")[0].classList.add("setInvisible");
 }
 
-function store(item) {
-    var storeFile = {
-        lastAuthor: document.getElementById("name").value,
-        messages: item
-    };
-    localStorage.setItem("Data of chat", JSON.stringify(storeFile));
+function restore(continueWith) {
+    var url = appState.mainUrl + '?token=' + appState.token + '&version=' + version;
+
+    doGet(url, function(responseText) {
+        console.assert(responseText != null);
+
+        var response = JSON.parse(responseText);
+        if (version != response.version) {
+            document.getElementById('history').innerHTML = '';
+            version = response.version;
+        }
+        writeAll(response.messages);
+        appState.token = response.token;
+        continueWith && continueWith();
+
+    });
+    setTimeout(function() {
+        restore(continueWith);
+    }, 1000);
 }
 
-function restore() {
-    if (typeof (Storage) == "undefined") {
-        alert("localStorage is not accessible");
-        return;
-    }
-
-    var item = localStorage.getItem("Data of chat");
-
-    return item && JSON.parse(item);
-}
-
-function writeAll() {
-    for (var i = 0; i < messageList.length; i++) {
-        document.getElementById("history").appendChild(writeUIMessage(messageList[i]));
+function writeAll(messageList) {
+    if (messageList != null) {
+        for (var i = 0; i < messageList.length; i++) {
+            if (messageList[i].message != '') {
+                document.getElementById("history").appendChild(writeUIMessage(messageList[i]));
+            }
+        }
+        document.getElementById("history").scrollTop = 99999999;
     }
 }
 

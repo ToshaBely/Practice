@@ -18,10 +18,11 @@ public class MessageExchange {
         return (Integer.valueOf(token.substring(2, token.length() - 2)) - 11) / 8;
     }
 
-    public String getServerResponse(List<JSONObject> messages) {
+    public String getServerResponse(List<JSONObject> messages, String version, int size) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("messages", messages);
-        jsonObject.put("token", getToken(messages.size()));
+        jsonObject.put("token", getToken(size));
+        jsonObject.put("version", version);
         return jsonObject.toJSONString();
     }
 

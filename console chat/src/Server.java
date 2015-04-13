@@ -16,6 +16,7 @@ public class Server implements HttpHandler {
     private List<JSONObject> history = new ArrayList<JSONObject>();
     private MessageExchange messageExchange = new MessageExchange();
     private TreeMap <Object, Integer> placeHistory = new TreeMap<Object, Integer>();
+    private Integer versionServer = 0;
 
     public static void main(String[] args) {
         if (args.length != 1)
@@ -72,6 +73,7 @@ public class Server implements HttpHandler {
                 return;
             }
 
+            versionServer++;
             JSONObject jsonObject = history.get(placeHistory.get(id));
             jsonObject.put("message", "");
             history.set(placeHistory.get(id), jsonObject);
@@ -87,9 +89,17 @@ public class Server implements HttpHandler {
         if (query != null) {
             Map<String, String> map = queryToMap(query);
             String token = map.get("token");
+            Integer version = Integer.parseInt(map.get("version"));
             if (token != null && !"".equals(token)) {
                 int index = messageExchange.getIndex(token);
-                return messageExchange.getServerResponse(history.subList(index, history.size()));
+                if (version.equals(versionServer))
+                {
+                    return messageExchange.getServerResponse(history.subList(index, history.size()), versionServer.toString(), history.size());
+                }
+                else
+                {
+                    return messageExchange.getServerResponse(history, versionServer.toString(), history.size());
+                }
             } else {
                 return "Token query parameter is absent in url: " + query;
             }
@@ -122,6 +132,7 @@ public class Server implements HttpHandler {
                 return;
             }
 
+            versionServer++;
             JSONObject jsonObject = history.get(placeHistory.get(id));
             jsonObject.put("message", jsonMessage.get("message"));
             history.set(placeHistory.get(id), jsonObject);
